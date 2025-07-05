@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import AuthLayout from "../../components/Layout/AuthLayout";
 import { Link, useNavigate } from "react-router-dom";
 import Input from "../../components/Input/Input";
+import { validateEmail } from "../../utils/helper";
 
 const Login = () => {
   // Set States
@@ -17,15 +18,16 @@ const Login = () => {
     e.preventDefault();
 
     // Check Email Condition
-    if(!validateEmail(email)){
-      setError("Plase enter a valid Email.")
-      return;
-    }
-
+   if (!validateEmail(email)) {
+       setError("Plase enter a valid Email.");
+       return;
+     }
+ 
      // Check Password Condition
-    if (!password) {
-      setError("Plase Enter Password.")
-    }
+     if (!password) {
+       setError("Plase Enter Password.");
+       return;
+     }
 
     setError("")
 
@@ -54,7 +56,7 @@ const Login = () => {
             value={password}
             onChange={({ target }) => setPassword(target.value)}
             label="Password"
-            placeholder="Password min 8 Character"
+            placeholder="Password"
             type="password"
           />
           {error && <p className="text-red-500 pb-2.5 text-xs">{error}</p>}
