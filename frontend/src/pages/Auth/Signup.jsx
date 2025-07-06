@@ -1,9 +1,13 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import AuthLayout from "../../components/Layout/AuthLayout";
 import { Link, useNavigate } from "react-router-dom";
 import Input from "../../components/Input/Input";
 import { validateEmail } from "../../utils/helper";
 import ProfileSelector from "../../components/Input/ProfileSelector";
+import axiosInstance from "../../utils/axiosInstance";
+import { API_PATHS } from "../../utils/apiPath";
+import { UserContext } from "../../context/UserContext";
+import uploadImage from "../../utils/uploadImage";
 
 const Signup = () => {
   // Set States
@@ -14,11 +18,14 @@ const Signup = () => {
   const [fullName, setFullName] = useState("");
   const [password, setPassword] = useState("");
 
+  // Use Context
+  const { updateUser } = useContext(UserContext);
+
   // Navigate
   const navigate = useNavigate();
 
   // Submit Handler
-  const handleLogin = async (e) => {
+  const handleSignUp = async (e) => {
     e.preventDefault();
     // Check Profile
     let profileImageUrl = "";
@@ -43,6 +50,30 @@ const Signup = () => {
     setError("");
 
     // Signup API Call
+    try {
+      if (profilePic) {
+        const imgUploadRes = await uploadImage(profilePic);
+        profileImageUrl = imgUploadRes.imageUrl || "";
+      }
+      const response = await axiosInstance.post(API_PATHS.AUTH.REGSITER, {
+        fullName,
+        email,
+        password,
+        profileImageUrl,
+      });
+      const { token, user } = response.data;
+      if (token) {
+        localStorage.setItem("token", token);
+        updateUser(user);
+        navigate("/dashboard");
+      }
+    } catch (error) {
+      if (error.response && error.response.data.message) {
+        setError(error.response.data.message);
+      } else {
+        setError("Someting went Wronge. Please try again.");
+      }
+    }
   };
   return (
     <AuthLayout>
@@ -51,7 +82,7 @@ const Signup = () => {
         <p className="text-xs text-slate-700 mt-[5px] mb-6">
           Please enter your deatils and create your account.
         </p>
-        <form onSubmit={handleLogin}>
+        <form onSubmit={handleSignUp}>
           <ProfileSelector image={profilePic} setImage={setProfilePic} />
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <Input

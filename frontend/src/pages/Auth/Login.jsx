@@ -1,15 +1,21 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import AuthLayout from "../../components/Layout/AuthLayout";
 import { Link, useNavigate } from "react-router-dom";
 import Input from "../../components/Input/Input";
 import { validateEmail } from "../../utils/helper";
+import axiosInstance from "../../utils/axiosInstance";
+import { API_PATHS } from "../../utils/apiPath";
+import { UserContext } from "../../context/UserContext";
 
 const Login = () => {
   // Set States
   const [error, setError] = useState(null);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  // Use Context 
+  const {updateUser} = useContext(UserContext);
+  // console.log(updateUser);
+  
   // Navigate
   const navigate = useNavigate();
 
@@ -18,23 +24,38 @@ const Login = () => {
     e.preventDefault();
 
     // Check Email Condition
-   if (!validateEmail(email)) {
-       setError("Plase enter a valid Email.");
-       return;
-     }
- 
-     // Check Password Condition
-     if (!password) {
-       setError("Plase Enter Password.");
-       return;
-     }
+    if (!validateEmail(email)) {
+      setError("Plase enter a valid Email.");
+      return;
+    }
 
-    setError("")
+    // Check Password Condition
+    if (!password) {
+      setError("Plase Enter Password.");
+      return;
+    }
+
+    setError("");
 
     // Login API Call
-
-    
-
+    try {
+      const response = await axiosInstance.post(API_PATHS.AUTH.LOGIN, {
+        email,
+        password,
+      });
+      const { token, user } = response.data;
+      if (token) {
+        localStorage.setItem("token", token);
+        updateUser(user)
+        navigate("/dashboard");
+      }
+    } catch (error) {
+      if (error.response && error.response.data.message) {
+        setError(error.response.data.message);
+      } else {
+        setError("Someting went Wronge. Please try again.");
+      }
+    }
   };
 
   return (
@@ -65,8 +86,14 @@ const Login = () => {
             LOGIN
           </button>
 
-          <p className="text-[13px] text-slate-800 mt-3 ">Don't have an account?{" "}
-             <Link className=" font-medium text-primary underline" to={'/signup'}>Sign Up</Link>
+          <p className="text-[13px] text-slate-800 mt-3 ">
+            Don't have an account?{" "}
+            <Link
+              className=" font-medium text-primary underline"
+              to={"/signup"}
+            >
+              Sign Up
+            </Link>
           </p>
         </form>
       </div>
