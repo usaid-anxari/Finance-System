@@ -13,8 +13,8 @@ const RecentIncome = ({transactions,onSeeMore}) => {
             </button>
            </div>
            <div className='mt-6'>
-            {transactions?.slice(0,5)?.map((item)=>(
-                <TransactionInfoCard key={item.id} name={item.name} quantity={item.quantity} title={item.type === 'expense' ? item.category : item.source} icon={item.icon} date={moment(item.date).format("DD MMM YYYY")}  amount={item.amount} type={item.type} hideDeleteBtn />
+            {transactions?.slice(0,5)?.map((item,index)=>(
+                <TransactionInfoCard key={index} name={item.name} quantity={item.quantity} title={item.type === 'expense' ? item.category : item.source} icon={item.icon} date={moment(item.date).format("DD MMM YYYY")}  amount={item.amount} type={item.type} hideDeleteBtn />
             ))}
            </div>
         </div>

@@ -39,11 +39,10 @@ export const prepareExpenseChartData = (data = []) => {
   return chartData;
 };
 
-export const prepareIncomeChartData = (data) => {
-  // if (!Array.isArray(data)) {
-  //   console.warn('prepareIncomeChartData: expected array, got', typeof data);
-  //   return [];
-  // }
+export const prepareIncomeChartData = (data = [])   => {
+  if (!Array.isArray(data)) {
+    return [];
+  }
   
   const sortData = [...data].sort(
     (a, b) => new Date(a.date) - new Date(b.date)
