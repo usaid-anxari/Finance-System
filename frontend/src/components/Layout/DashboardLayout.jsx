@@ -5,7 +5,7 @@ import Sidebar from "./Sidebar";
 
 const DashboardLayout = ({ activeMenu,children }) => {
   const { user } = useContext(UserContext);
-  //console.log(user);
+  console.log(user);  
   
   return (
     <div className="">

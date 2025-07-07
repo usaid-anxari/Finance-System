@@ -75,14 +75,14 @@ export const gatDashboardData = async (req, res) => {
       totalIncome: totalIncome[0]?.total || 0,
       totalExpense: totalExpense[0]?.total || 0,
       last30DaysExpense: {
-        total: expenseLast30Days,
-        transaction: totalExpenseLast30Days,
+        total: totalExpenseLast30Days,
+        transaction: expenseLast30Days,
       },
       last60DaysIncome: {
-        total: incomeLast60Days,
-        transaction: totalIncomeLast60Days,
+        total:  totalIncomeLast60Days,
+        transaction:incomeLast60Days ,
       },
-      recentTransctions: lastTransaction,
+      recentTransactions: lastTransaction,
     });
   } catch (error) {
     return res.status(500).json({ message: error.message });
