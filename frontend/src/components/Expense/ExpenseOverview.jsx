@@ -27,7 +27,7 @@ const ExpenseOverview = ({ transactions, onAddExpense }) => {
         </button>
       </div>
 
-      <div className="mt-10"><CustomBarChart data={chartData} /></div>
+      {/* <div className="mt-10"><CustomBarChart data={chartData} /></div> */}
     </div>
   );
 };
