@@ -1,4 +1,4 @@
-export const BASE_URL =`http://localhost:${5000 || 8080}`
+export const BASE_URL =`https://finance-system-one.vercel.app/`
 
 // utils/api.paths.js
 export const API_PATHS = {
