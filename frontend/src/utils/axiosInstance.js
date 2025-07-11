@@ -4,6 +4,7 @@ import { BASE_URL } from "./apiPath";
 const axiosInstance = axios.create({
   baseURL: BASE_URL,
   timeout: 5000,
+  methods: ["GET", "POST", "PUT", "UPDATE", "DELETE"],
   headers: {
     "Content-Type": "application/json",
     Accept: "application/json",
