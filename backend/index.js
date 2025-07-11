@@ -26,7 +26,7 @@ app.use(
 );
 
 // ------ Routes -----------
-app.use("/api/status", (req, res) => res.send("Server is Live!"));
+app.use("/", (req, res) => res.send("Server is Live!"));
 app.use("/api/v1/auth", userRouter);
 app.use("/api/v1/income", incomeRouter);
 app.use("/api/v1/expense", expenseRouter);
