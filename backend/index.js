@@ -26,13 +26,13 @@ app.use(
 );
 
 // ------ Routes -----------
-app.use("/", (req, res) => res.send("Server is Live!"));
 app.use("/api/v1/auth", userRouter);
 app.use("/api/v1/income", incomeRouter);
 app.use("/api/v1/expense", expenseRouter);
 app.use("/api/v1/dashboard", dashboardRouter);
 
-
+//  ----- SERVER TESTING ------- //
+app.use("/api/status", (req, res) => res.send("Server is Live!"));
 
 // ------ File Upload Route -----------
 const __filename = fileURLToPath(import.meta.url);

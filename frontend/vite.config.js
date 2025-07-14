@@ -4,5 +4,14 @@ import tailwindcss from "@tailwindcss/vite";
 
 // https://vite.dev/config/
 export default defineConfig({
+  server: {
+    proxy: {
+      "/api": {
+        target: "https://finance-system-backend.vercel.app", // backend
+        changeOrigin: true,
+        secure: false,
+      },
+    },
+  },
   plugins: [react(), tailwindcss()],
 });
